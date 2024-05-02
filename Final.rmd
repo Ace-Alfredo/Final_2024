@@ -191,18 +191,218 @@ hi=(Femalefish$conf.int[2]/(Femalefish$conf.int[2] +1))*100
 options(digits=2)
 ```
 
+## Effectiveness Confidence Interval `r low`  to `r hi`
+
+
+
+
+
+
+Above is the effectiveness for the covid-19 for females. If the effectiveness is above 50% that means that the vaccine is effective. Based on the interval seen above, we cn conclude that the vaccine is highly effective in protecting females from getting covid-19. 
+
+The hallmark of an effective vaccine is 60% or better. This vaccine works great in protecting females from contructing covid-19.
+
+The odds ratio is approximately how effective the vaccine is. The odds ratio for the gals can be seen above as 67. The effectiveness confidence interval for the female is 63.15 to 70.99.
+
 
 
 
 
 ## LGBTQ
 
+### Barplot
+
+```{r}
+dd2 <- LGBTQ%>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
+
+
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(dd2,aes(x=infected,y=count,fill=treatment))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
+
+
+
+This plot represents the population of LGBTQ people and the relationship to the contraction of covid-19 by taking either the vaccine or the placebo.
+
+In this barplot, it appears that a sniffling 71% of the individuals that took the vaccine got covid-19 as well as the 29% who received the placebo. The odds of getting covid-19 while taking the vaccine is 2.5:1. The individuals who identified as LGBTQ and took the vaccine were three times as likely to get covid-19 than those taking the placebo.
+
+
+There are two plots. In first plot,the x-axis represents infected, whether the participants were infected with covid-19 or they were not. The y-axis represents the count, or number of people that got covid-19 or not.
+In the second plot, the one above, The The left two bars of the graph are all the people that got covid-19. The x-axis represents whether a person got covid-19 or not. The y-axis, however, instead of representing the number of people who got covid-19, now represents the percentage of people that got covid-19 after taking the the placebo or taking the Vaccine. 
+
+
+The codes that  create this plot start with the code block beginning with dd2. dd2 can be seen in the environment pane and if inspected contains 4 variables.These variables include infected, treatment, count, and prcent(stands for percent). The second group of codes is called the basicC. BasicC can also be seen in the environment pane and appears to contain a list of 9 variables. This information creates the first plot. The basicCC is the last bunch of codes and is also in the files pane. It also contains 9 variables and helps to create the percentage plot, the second plot.
+
+
+### Numerical results
+
+```{r}
+table1 <- xtabs(~infected + treatment, data=LGBTQ)
+rowPerc(table1)
+colPerc(table1)
+```
+
+These numerical results show specific percentages of LGBTQ individuals that got covid-19 after taking the placebo and taking the vaccine. 
+The LGBTQ participants that took the vaccine and contracted covid-19 was at an approximately shocking 71%! Those participants that only received the placebo only contacted covid-19 at 29%. The vaccine id evidently completely ineffective in protecting the LGBTQ community against covid-19 and taking it is not advised. 
+The odds of getting covid-19 while taking the vaccine is 2.5:1. The individuals who identified as LGBTQ and took the vaccine were three times as likely to get covid-19 than those taking the placebo.
+
+### Inferential 
+
+
+
+
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+LGBTQfish <- fisher.test(table1)
+LGBTQfish
+```
+
+
+The p-value is 6e-06. This in an incredibly small number and with that being said, the conclusion is that these results are unlikely to occur by chance.
+
+The Fishers's Exact Test illustrates that the odds ratio is 0.4
+LGBTQ individuals who got the vaccine were about 2.5 times more likely to get Covid-19 than LGBTQ that took the placebo.
+
+The null hypothesis is rejected in favor the the alternative. The drug is completely ineffective in preventing the chances of getting covid-19 in individuals who identify as LGBTQ.
+
+
+
+
+
+```{r}
+effect <- LGBTQfish$p.value/(LGBTQfish$p.value +1)
+effectivenessLGBTQ = LGBTQfish$estimate/(LGBTQfish$estimate +1)*100
+print(effectivenessLGBTQ)
+```
+
+```{r}
+low=(LGBTQfish$conf.int[1]/(LGBTQfish$conf.int[1] +1))*100
+hi=(LGBTQfish$conf.int[2]/(LGBTQfish$conf.int[2] +1))*100
+options(digits=2)
+```
+
+
+## Effectiveness Confidence Interval `r low`  to `r hi`
+
+
+Above is the effectiveness for the covid-19 for those who identified as LGBTQ.  If the effectiveness is above 50% that means that the vaccine is effective. Based on the interval seen above, we can conclude that the vaccine is ineffective in protecting people who identify as LGBTQ from getting covid-19. 
+
+The odds ratio is approximately how effective the vaccine is. The odds ratio for the LGBTQ folk be seen above as 29. This is completely ineffective. The people who take the vaccine are not better off then those who don't receive it at all. The effectiveness confidence interval for the people who identified as LGBTQ is 20.51 to 37.97.
+
+
 
 
 ## Druggies
 
+### Barplot
+
+
+```{r}
+dd2 <-  Druggies %>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
+
+
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(dd2,aes(x=infected,y=count,fill=treatment))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
+
+This plot represents the population of people who answered Druggies to drug use and the relationship to the contraction of covid-19 while taking either the vaccine or the placebo.
+
+This barplot shows that arounf 34% of the people who answered yes to drug use and recieved the vaccine contracted covid-19. This means that around 66% of the druggies that only took the placebo ended up getting covid-19.The odds of getting covid-19 while taking the vaccine is 1:2. The Druggies that took the vaccine were half as likely to get covid-19 than those taking the placebo.
+
+
+
+
+There are two plots. In first plot,the x-axis represents infected, whether the participants were infected with covid-19 or they were not. The y-axis represents the count, or number of people that got covid-19 or not.
+In the second plot, the one above, The The left two bars of the graph are all the people that got covid-19. The x-axis represents whether a person got covid-19 or not. The y-axis, however, instead of representing the number of people who got covid-19, now represents the percentage of people that got covid-19 after taking the the placebo or taking the Vaccine. 
+
+
+
+
+The codes that  create this plot start with the code block beginning with dd2. dd2 can be seen in the environment pane and if inspected contains 4 variables.These variables include infected, treatment, count, and prcent(stands for percent). The second group of codes is called the basicC. BasicC can also be seen in the environment pane and appears to contain a list of 9 variables. This information creates the first plot. The basicCC is the last bunch of codes and is also in the files pane. It also contains 9 variables and helps to create the percentage plot, the second plot.
+
+
+### Numerical results
+
+```{r}
+table1 <- xtabs(~infected + treatment, data=Druggies)
+rowPerc(table1)
+colPerc(table1)
+```
+ 
+
+These numerical results show specific percentages of Druggies that got covid-19 after taking the placebo and taking the vaccine.
+The percentage of Druggies that took the vaccine and contacted covid-19 is 33% Those that were only given the placebo and got covid-19 was almost 67%. It is clear that the vaccine to prevent covid-19 is effective in protecting Druggies against covid-19 and  so getting this vaccine is recommended. The odds of getting covid-19 while taking the vaccine is 1:2. The Druggies that took the vaccine were half as likely to get covid-19 than those taking the placebo.
+
+### Inferential 
+
+
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+Druggiesfish <- fisher.test(table1)
+Druggiesfish
+```
+
+
+The p-value is 0.002. This in a small number and with that being said, the conclusion is that these results are unlikely to occur by chance.
+
+The Fishers's Exact Test illustrates that the odds ratio is 1.8
+Druggies who got the vaccine were about half as likely to get Covid-19 than Druggies that took the placebo.
+
+The null hypothesis is rejected in favor the the alternative. The drug is  effective in preventing the chances of getting covid-19 in drugusers.
+
+
+
+
+```{r}
+effect <- Druggiesfish$p.value/(Druggiesfish$p.value +1)
+effectivenessDruggies = Druggiesfish$estimate/(Druggiesfish$estimate +1)*100
+print(effectivenessDruggies)
+```
+
+```{r}
+low=(Druggiesfish$conf.int[1]/(Druggiesfish$conf.int[1] +1))*100
+hi=(Druggiesfish$conf.int[2]/(Druggiesfish$conf.int[2] +1))*100
+options(digits=2)
+```
+
+
+## Effectiveness Confidence Interval `r low`  to `r hi`
+
+
+
+Above, is the effectiveness for the covid-19 for male. If the effectiveness is above 50% that means that the vaccine is effective. Based on the interval seen above, we can conclude that the vaccine is effective in protecting Druggies from getting covid-19. 
+
+The hallmark of an effective vaccine is 60% or better. This vaccine works great in protecting Druggies from contracting covid-19.
+
+The odds ratio is approximately how effective the vaccine is. The odds ratio for the Druggies can be seen above as 65. The effectiveness confidence interval for the Druggies is 54.96 to 73.63.
+
 
 # Overall Results and Conclusions
 
+The covid-19 vaccine was not effective in protecting the male against the contraction of the disease. The covid-19 effectiveness was `r effectivenessmale`
+for male.
+The covid-19 vaccine was highly successful in protecting women against covid-19.The covid-19 effectiveness was `r effectivenessgal`. women were protected the most with this particular vaccine.
+The covid-19 vaccine was not effective in treating people who identified as LGBTQ. The individuals who identified as LGBTQ and took the vaccine were two and a half times as likely to get covid-19 than those taking the placebo.The covid-19 effectiveness was `r effectivenessLGBTQ` for LGBTQ individuals.
+The individuals that were Druggies were effectively protected by the vaccine though not quite as much as the Female. 
+The Druggies that took the vaccine were half as likely to get covid-19 than those taking the placebo. The covid-19 effectiveness was `r effectivenessDruggies` for Druggies.
+
+If you are a male or identify as LGBTQ it is not recommended to receive the vaccine. However, if you are a female or a Druggies, the vaccine was reported to have been effective.
+The null that there is no difference in taking the vaccine can be accepted to the categories including male and LGBTQ individuals. the alternative, that the vaccine works and is effective, can be accepted for the females, and the people who used drugs.
 
 
